@@ -1,0 +1,98 @@
+Certainly! Let's create a simple weather application using HTML, CSS, and JavaScript. This application will allow users to enter a city name, and it will display the current temperature and weather conditions for that city using an external API.
+
+HTML (index.html):
+
+html
+Copy code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Weather App</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Weather App</h1>
+        <input type="text" id="cityInput" placeholder="Enter city name">
+        <button onclick="getWeather()">Get Weather</button>
+        <div id="weatherInfo"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+CSS (style.css):
+
+css
+Copy code
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+input[type="text"] {
+    width: 70%;
+    padding: 8px;
+    margin-right: 5px;
+}
+
+button {
+    padding: 8px;
+    cursor: pointer;
+}
+
+#weatherInfo {
+    margin-top: 20px;
+}
+JavaScript (script.js):
+
+javascript
+Copy code
+function getWeather() {
+    var cityInput = document.getElementById("cityInput").value;
+    var weatherInfo = document.getElementById("weatherInfo");
+
+    if (cityInput !== "") {
+        // Replace 'YOUR_API_KEY' with your actual API key from a weather API provider.
+        var apiKey = 'YOUR_API_KEY';
+        var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput}&appid=${apiKey}`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                var temperature = Math.round(data.main.temp - 273.15); // Convert temperature to Celsius
+                var weatherDescription = data.weather[0].description;
+
+                weatherInfo.innerHTML = `<p>Temperature: ${temperature}°C</p>
+                                         <p>Weather: ${weatherDescription}</p>`;
+            })
+            .catch(error => {
+                console.error('Error fetching weather data:', error);
+                weatherInfo.innerHTML = '<p>Unable to fetch weather data. Please try again later.</p>';
+            });
+    } else {
+        weatherInfo.innerHTML = '<p>Please enter a city name.</p>';
+    }
+}
+Note: To use this program, you'll need to sign up for a free API key from a weather API provider, such as OpenWeatherMap. Replace 'YOUR_API_KEY' in the script.js file with your actual API key.
+
+This program demonstrates how to make an API request, handle the response, and display the weather information on the webpage.
